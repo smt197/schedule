@@ -2,9 +2,9 @@ name: Laravel CI/CD Pipeline
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 jobs:
   test:
@@ -74,7 +74,7 @@ jobs:
     name: Deploy to Production
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
     - uses: actions/checkout@v3

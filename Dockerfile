@@ -32,7 +32,7 @@ COPY . .
 RUN composer install --optimize-autoloader --no-dev
 
 # Générer les clés pour Laravel Passport
-RUN php artisan passport:keys
+# RUN php artisan passport:keys
 
 # Changer les permissions pour les fichiers Laravel (storage et cache)
 RUN chown -R www-data:www-data /var/www \
