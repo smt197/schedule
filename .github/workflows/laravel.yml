@@ -71,35 +71,14 @@ jobs:
         DB_PASSWORD: postgres
 
   deploy:
-    name: Deploy to Production
+    name: Deploy to Render
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main'
 
     steps:
-    - uses: actions/checkout@v3
-
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
+    - name: Deploy to Render
+      uses: johnbeynon/render-deploy-action@v0.0.8
       with:
-        php-version: '8.2'
-
-    - name: Install Dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest --no-dev
-
-    - name: Deploy to Production
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          cd /path/to/your/project
-          git pull origin main
-          composer install --no-dev --optimize-autoloader
-          php artisan migrate --force
-          php artisan config:cache
-          php artisan route:cache
-          php artisan view:cache
-          sudo supervisorctl restart all
+        service-id: ${{ secrets.RENDER_SERVICE_ID }}
+        api-key: ${{ secrets.RENDER_API_KEY }}

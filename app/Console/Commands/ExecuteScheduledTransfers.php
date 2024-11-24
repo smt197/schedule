@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\ScheduledTransfer;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class ExecuteScheduledTransfers extends Command
@@ -28,6 +29,9 @@ class ExecuteScheduledTransfers extends Command
      */
     public function handle()
     {
+
+        Cache::put('last_schedule_run', now(), now()->addHours(1));
+
         $now = now();
 
         $transfers = ScheduledTransfer::where('status', 'pending')
