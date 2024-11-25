@@ -26,4 +26,13 @@ class ScheduledTransferController extends Controller
             'transfer' => $transfer,
         ], 201);
     }
+
+    public function getUserScheduledTransfers($userId)
+    {
+        $transfers = ScheduledTransfer::where('sender_id', $userId)
+            ->orWhere('receiver_id', $userId)
+            ->get();
+
+        return response()->json($transfers);
+    }
 }

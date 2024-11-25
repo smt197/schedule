@@ -38,5 +38,6 @@ Route::get('/schedule-status', function () {
 
 
 Route::post('/schedule-transfer', [ScheduledTransferController::class, 'scheduleTransfer']);
+Route::get('/scheduled-transfers/{userId}', [ScheduledTransferController::class, 'getUserScheduledTransfers']);
 
 
